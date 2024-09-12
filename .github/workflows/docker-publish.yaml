@@ -17,9 +17,9 @@ jobs:
       AZURE_ACR_LOGIN_SERVER: alsandrecr.azurecr.io
       AZURE_ACR_USERNAME: ${{ secrets.AZURE_ACR_USERNAME }}
       AZURE_ACR_PASSWORD: ${{ secrets.AZURE_ACR_PASSWORD }}
-      BACKEND_IMAGE_NAME: flask-backend  # Adjust as per your naming convention
-      FRONTEND_IMAGE_NAME: react-frontend  # Adjust as per your naming convention
-      IMAGE_TAG: 1.0.0-${{ github.sha }}  # Use SHA as the image tag or adjust as needed
+      BACKEND_IMAGE_NAME: flask-backend  
+      FRONTEND_IMAGE_NAME: react-frontend  
+      IMAGE_TAG: 1.0.0-${{ github.run_number }}
 
     steps:
       - name: Checkout code
@@ -33,22 +33,42 @@ jobs:
           username: ${{ secrets.AZURE_ACR_USERNAME }}
           password: ${{ secrets.AZURE_ACR_PASSWORD }}
 
-      # Build Backend Image
-      - name: Build backend Docker image
+      # Build and Push Backend Image
+      - name: Build and Push backend Docker image
         run: |
           docker build -t ${{ env.AZURE_ACR_LOGIN_SERVER }}/${{ env.BACKEND_IMAGE_NAME }}:${{ env.IMAGE_TAG }} -f backend/Dockerfile backend/
-
-      # Push Backend Image to ACR
-      - name: Push backend Docker image to ACR
-        run: |
           docker push ${{ env.AZURE_ACR_LOGIN_SERVER }}/${{ env.BACKEND_IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+          docker tag ${{ env.AZURE_ACR_LOGIN_SERVER }}/${{ env.BACKEND_IMAGE_NAME }}:${{ env.IMAGE_TAG }} ${{ env.AZURE_ACR_LOGIN_SERVER }}/${{ env.BACKEND_IMAGE_NAME }}:latest
+          docker push ${{ env.AZURE_ACR_LOGIN_SERVER }}/${{ env.BACKEND_IMAGE_NAME }}:latest
 
-      # Build Frontend Image
-      - name: Build frontend Docker image
+      # Build and Push Frontend Image
+      - name: Build and Push frontend Docker image
         run: |
           docker build -t ${{ env.AZURE_ACR_LOGIN_SERVER }}/${{ env.FRONTEND_IMAGE_NAME }}:${{ env.IMAGE_TAG }} -f frontend/Dockerfile frontend/
-
-      # Push Frontend Image to ACR
-      - name: Push frontend Docker image to ACR
-        run: |
           docker push ${{ env.AZURE_ACR_LOGIN_SERVER }}/${{ env.FRONTEND_IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+          docker tag ${{ env.AZURE_ACR_LOGIN_SERVER }}/${{ env.FRONTEND_IMAGE_NAME }}:${{ env.IMAGE_TAG }} ${{ env.AZURE_ACR_LOGIN_SERVER }}/${{ env.FRONTEND_IMAGE_NAME }}:latest
+          docker push ${{ env.AZURE_ACR_LOGIN_SERVER }}/${{ env.FRONTEND_IMAGE_NAME }}:latest 
+
+      # # Build Backend Image
+      # - name: Build backend Docker image
+      #   run: |
+      #     docker build -t ${{ env.AZURE_ACR_LOGIN_SERVER }}/${{ env.BACKEND_IMAGE_NAME }}:${{ env.IMAGE_TAG }} -f backend/Dockerfile backend/
+      #     # Tag the backend image with :latest
+      #     docker tag ${{ env.AZURE_ACR_LOGIN_SERVER }}/${{ env.BACKEND_IMAGE_NAME }}:${{ env.IMAGE_TAG }} ${{ env.AZURE_ACR_LOGIN_SERVER }}/${{ env.BACKEND_IMAGE_NAME }}:latest
+
+      # # Push Backend Image to ACR
+      # - name: Push backend Docker images to ACR
+      #   run: |
+      #     docker push ${{ env.AZURE_ACR_LOGIN_SERVER }}/${{ env.BACKEND_IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+      #     docker push ${{ env.AZURE_ACR_LOGIN_SERVER }}/${{ env.BACKEND_IMAGE_NAME }}:latest
+
+      # # Build Frontend Image
+      # - name: Build frontend Docker image
+      #   run: |
+      #     docker build -t ${{ env.AZURE_ACR_LOGIN_SERVER }}/${{ env.FRONTEND_IMAGE_NAME }}:${{ env.IMAGE_TAG }} -f frontend/Dockerfile frontend/
+      #     docker tag ${{ env.AZURE_ACR_LOGIN_SERVER }}/${{ env.FRONTEND_IMAGE_NAME }}:${{ env.IMAGE_TAG }} ${{ env.AZURE_ACR_LOGIN_SERVER }}/${{ env.FRONTEND_IMAGE_NAME }}:latest
+      # # Push Frontend Image to ACR
+      # - name: Push frontend Docker image to ACR
+      #   run: |
+      #     docker push ${{ env.AZURE_ACR_LOGIN_SERVER }}/${{ env.FRONTEND_IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+      #     docker push ${{ env.AZURE_ACR_LOGIN_SERVER }}/${{ env.FRONTEND_IMAGE_NAME }}:latest
