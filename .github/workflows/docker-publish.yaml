@@ -14,7 +14,7 @@ jobs:
     environment: develop
 
     env:
-      AZURE_ACR_LOGIN_SERVER: ${{ secrets.AZURE_ACR_LOGIN_SERVER }}
+      AZURE_ACR_LOGIN_SERVER: ${{ env.AZURE_ACR_LOGIN_SERVER }}
       AZURE_ACR_USERNAME: ${{ secrets.AZURE_ACR_USERNAME }}
       AZURE_ACR_PASSWORD: ${{ secrets.AZURE_ACR_PASSWORD }}
       BACKEND_IMAGE_NAME: flask-backend  # Adjust as per your naming convention
