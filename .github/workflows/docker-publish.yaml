@@ -46,7 +46,7 @@ jobs:
       # Build Frontend Image
       - name: Build frontend Docker image
         run: |
-          docker build -t ${{ env.AZURE_ACR_LOGIN_SERVER }}/${{ env.FRONTEND_IMAGE_NAME }}:${{ env.IMAGE_TAG }} -f frontend/Dockerfile .
+          docker build -t ${{ env.AZURE_ACR_LOGIN_SERVER }}/${{ env.FRONTEND_IMAGE_NAME }}:${{ env.IMAGE_TAG }} -f frontend/Dockerfile frontend/
 
       # Push Frontend Image to ACR
       - name: Push frontend Docker image to ACR
