@@ -29,7 +29,7 @@ jobs:
         uses: azure/docker-login@v1
         with:
           login-server: ${{ env.AZURE_ACR_LOGIN_SERVER }}
-          username: ${{ env.AZURE_ACR_USERNAME }}
+          username: ${{ secrets.AZURE_ACR_USERNAME }}
           password: ${{ secrets.AZURE_ACR_PASSWORD }}
 
       # Build Backend Image
