@@ -11,7 +11,7 @@ COPY package*.json ./
 RUN npm install
 
 # Install 'serve' globally
-RUN npm install -g serve
+RUN npm install serve
 
 # Copy the rest of the application
 COPY . .
