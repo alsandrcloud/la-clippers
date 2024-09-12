@@ -11,6 +11,7 @@ on:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+    environment: develop
 
     env:
       AZURE_ACR_LOGIN_SERVER: ${{ secrets.AZURE_ACR_LOGIN_SERVER }}
