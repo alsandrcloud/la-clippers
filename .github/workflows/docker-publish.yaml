@@ -36,7 +36,7 @@ jobs:
       # Build Backend Image
       - name: Build backend Docker image
         run: |
-          docker build -t ${{ env.AZURE_ACR_LOGIN_SERVER }}/${{ env.BACKEND_IMAGE_NAME }}:${{ env.IMAGE_TAG }} -f backend/Dockerfile file backend/
+          docker build -t ${{ env.AZURE_ACR_LOGIN_SERVER }}/${{ env.BACKEND_IMAGE_NAME }}:${{ env.IMAGE_TAG }} -f backend/Dockerfile backend/
 
       # Push Backend Image to ACR
       - name: Push backend Docker image to ACR
