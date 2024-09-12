@@ -2,7 +2,8 @@ version: '3.8'
 
 services:
   backend:
-    build: ./backend
+    # build: ./backend
+    image: alsandrecr.azurecr.io/flask-backend:latest
     ports:
       - "5000:5000"
     environment:
@@ -16,7 +17,8 @@ services:
       - ./backend:/app
 
   frontend:
-    build: ./frontend
+    # build: ./frontend
+    image: alsandrecr.azurecr.io/react-frontend:latest
     ports:
       - "3000:3000"
     environment:
